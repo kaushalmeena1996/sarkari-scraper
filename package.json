@@ -1,0 +1,29 @@
+{
+  "name": "sarkari-scraper",
+  "version": "1.0.0",
+  "description": "A web scraper made to extract results from https://www.sarkariresult.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaushalmeena1996/sarkari-scraper.git"
+  },
+  "keywords": [
+    "sarkari",
+    "scraper",
+    "axios",
+    "cheerio"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kaushalmeena1996/sarkari-scraper/issues"
+  },
+  "homepage": "https://github.com/kaushalmeena1996/sarkari-scraper#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
