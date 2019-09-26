@@ -24,6 +24,7 @@
   "homepage": "https://github.com/kaushalmeena1996/sarkari-scraper#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "json2csv": "^4.5.3"
   }
 }

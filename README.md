@@ -14,7 +14,7 @@ A web scraper made to extract results from https://www.sarkariresult.com
 For job-list
 
 ```
-node job-list.js
+node get-job-list.js
 ```
 
 For job-detail
@@ -22,5 +22,13 @@ For job-detail
 Link must be of sarkariresult.com job detail page like https://www.sarkariresult.com/bank/nabard-da-sep19.php
 
 ```
-node job-detail.js [link]
+node get-job-detail.js [link]
+```
+
+For scraping
+
+Output: output.csv
+
+```
+node run-scraper.js
 ```
