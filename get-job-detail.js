@@ -1,15 +1,15 @@
 var axios = require("axios");
-var jobDetail = require("./scripts/sarkariresult.com/raw-job-detail")
+var jobDetail = require("./scripts/sarkariresult/job-detail")
 
 var url = process.argv[2];
 
 if (url) {
     axios.get(url)
         .then(function (response) {
-           console.log(JSON.stringify(jobDetail.getJobDetail(response.data), undefined, 2));
+            console.log(JSON.stringify(jobDetail.getJobDetail(response.data, url), undefined, 2));
         })
         .catch(function (error) {
-            console.log(`${error.response.status} : ${error.response.statusText}`);
+            console.log(error);
         });
 } else {
     console.log("Usage: node get-job-detail.js [link]");

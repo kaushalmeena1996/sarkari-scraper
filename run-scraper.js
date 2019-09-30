@@ -1,9 +1,9 @@
 var axios = require("axios");
 var json2csv = require('json2csv');
 var fs = require('fs');
-var jobDetail = require("./scripts/sarkariresult.com/raw-job-detail")
-var jobList = require("./scripts/sarkariresult.com/job-list")
-var cheerio = require("cheerio");
+var jobDetail = require("./scripts/sarkariresult/job-detail")
+var jobList = require("./scripts/sarkariresult/job-list")
+var helper = require("./utils/helper")
 
 
 var parser = new json2csv.Parser();
@@ -17,18 +17,20 @@ axios.get(url)
         saveToFile(list)
     })
     .catch(function (error) {
-        console.log(`${error.response.status} : ${error.response.statusText}`);
+        console.log(error);
     });
 
 function saveToFile(list) {
-    var lineBreaker = "\r\n\-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-\n\r";
-    var csvData;
+    var lineBreaker = "\r\n\n\-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-X-O-\n\r";
+    var data;
 
     for (const item of list) {
         axios.get(item['Link']).then(function (response) {
             if (response.data) {
-                csvData = parser.parse(jobDetail.getJobDetail(response.data)) + lineBreaker;
-                fs.appendFile("output.csv", csvData, function (err) {
+                data = jobDetail.getJobDetail(response.data, item['Link']);
+                data = helper.formatDataForCSV(data);
+                data = parser.parse(data) + lineBreaker;
+                fs.appendFile("output.csv", data, function (err) {
                     if (err) {
                         return console.log(err);
                     }
@@ -36,7 +38,8 @@ function saveToFile(list) {
                 });
             }
         }).catch(function (error) {
-            console.log(`--- ${item['Link']} ${error.response.status} : ${error.response.statusText}`);
+            console.log(`----- ${item['Link']} error occured!`);
+            console.log(error);
         });
     }
 }
