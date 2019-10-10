@@ -3,6 +3,8 @@ var fs = require("fs");
 var constant = require("./utils/constant");
 var csv = require("./utils/csv");
 
+var temp;
+
 // set domain name
 var domain = constant.DEFAULT_DOMAIN;
 temp = process.argv.indexOf("-d");
@@ -22,63 +24,50 @@ var filename = "";
 temp = process.argv.indexOf("-o");
 if (temp !== -1) {
     filename = process.argv[temp + 1];
-} else {
-    console.log("Usage: node run-scraper -o <filename>");
-    process.exit(0);
 }
 
-var jobDetail = require(`./scripts/${domain}/job-detail`);
 var jobList = require(`./scripts/${domain}/job-list`);
 
 var url = jobList.jobListUrl;
 
 var data = [];
 
-var counter = 0;
-
 var temp;
 
-scrapData(url, loadJobList);
+scrapData(url, appendData);
 
-function loadJobList(response) {
+function appendData(response) {
     if (response) {
         temp = jobList.scrapJobList(response.data);
         data = [...data, ...temp.data];
+        console.log(`----- ${response.config.url} parsed.`);
     }
     if (temp.next) {
+        scrapData(temp.next, appendData);
     } else {
-        console.log(`----- list length : ${data.length}`);
-        scrapData(data[counter++]["link"], loadJobDetail);
+        saveData();
     }
 }
 
-function loadJobDetail(response) {
-    if (response) {
-        temp = jobDetail.scrapJobDetail(response.data);
-        saveData(temp, response.config.url);
-    }
-    if (counter < data.length) {
-        scrapData(data[counter++]["link"], loadJobDetail);
-    }
-}
-
-function saveData(jobData, url) {
-    temp = jobData;
+function saveData() {
     switch (format) {
         case "json":
-            temp = JSON.stringify(temp, undefined, 2);
+            data = JSON.stringify(data, undefined, 2);
+            console.log(data);
             break;
         case "csv":
-            temp = csv.formatData(temp);
-            temp = csv.parse(temp) + constant.LINE_BREAKER;
+            data = csv.parse(data);
+            console.log(data);
             break;
     }
-    fs.appendFile(filename, temp, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log(`----- ${url} appended to file ${filename} in ${format} format.`);
-    });
+    if (filename) {
+        fs.writeFile(filename, data, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(`----- joblist written to file ${filename} in ${format} format.`);
+        });
+    }
 }
 
 function scrapData(url, callback) {

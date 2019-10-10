@@ -2,33 +2,65 @@
 
 ## [ Synopsis ]
 
-A web scraper made to extract results from https://www.sarkariresult.com
+A web scraper made to extract results from government job listing sites.
 
 ## [ Prerequisities ]
 
 - NodeJS
   - https://nodejs.org/en/download/
 
-## [ Usage ]
+## [ CLI Usage ]
 
-For job-list
+### Supported Domains
+
+- freshersnow.com
+- sarkariresult.com
+- sarkariresults.info
+- sarkariexam.com
+
+### Supported Formats
+
+- json
+- csv
+
+### For job-list
 
 ```
-node get-job-list.js
+node scrap-job-list.js [flags]
 ```
 
-For job-detail
+#### Flags
 
-Link must be of sarkariresult.com job detail page like https://www.sarkariresult.com/bank/nabard-da-sep19.php
+| Flag | Input    | Description                                                                   |
+| ---- | -------- | ----------------------------------------------------------------------------- |
+| -d   | domain   | Set domain of site from job list to be scrapped (default : sarkariresult.com) |
+| -f   | format   | Set format of output (default : json)                                         |
+| -o   | filename | Set filename of output file, if not used file will not be saved               |
+
+### For job-detail
 
 ```
-node get-job-detail.js [link]
+node scrap-job-detail.js [flags]
 ```
 
-For scraping
+#### Flags
 
-Output: output.csv
+| Flag | Input    | Description                                                     |
+| ---- | -------- | --------------------------------------------------------------- |
+| -u   | url      | Set url of job detail page (required)                           |
+| -f   | format   | Set format of output (default : json)                           |
+| -o   | filename | Set filename of output file, if not used file will not be saved |
+
+### For scraping
 
 ```
 node run-scraper.js
 ```
+
+#### Flags
+
+| Flag | Input    | Description                                                                   |
+| ---- | -------- | ----------------------------------------------------------------------------- |
+| -d   | domain   | Set domain of site from job list to be scrapped (default : sarkariresult.com) |
+| -f   | format   | Set format of output (default : json)                                         |
+| -o   | filename | Set filename of output file (required)                                        |
