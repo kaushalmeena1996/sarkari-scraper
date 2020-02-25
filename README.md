@@ -28,6 +28,10 @@ A web scraper made to extract results from government job listing sites.
 ```
 node scrap-job-list.js [flags]
 ```
+- example
+```
+node scrap-job-list.js -d sarkariresult.com
+```
 
 #### Flags
 
@@ -42,6 +46,10 @@ node scrap-job-list.js [flags]
 ```
 node scrap-job-detail.js [flags]
 ```
+- example
+```
+node scrap-job-detail.js -u https://www.sarkariresult.com/upsssc/01exam2018.php
+```
 
 #### Flags
 
@@ -54,7 +62,11 @@ node scrap-job-detail.js [flags]
 ### For scraping
 
 ```
-node run-scraper.js
+node run-scrapper.js [flags]
+```
+- example
+```
+node run-scrapper.js -d freshersnow.com -f csv -o output.csv
 ```
 
 #### Flags
